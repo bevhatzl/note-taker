@@ -1,5 +1,5 @@
 const noteData = require("../db/db.json");
-var fs = require("fs");
+const fs = require("fs");
 
 
 module.exports = function (app) {
@@ -10,15 +10,24 @@ module.exports = function (app) {
     // ---------------------------------------------------------------------------
 
     app.get("/api/notes", function (req, res) {
+        // fs.readFile(path.join(__dirname, "../db/db.json"), "utf-8", (err, data) => {
+        //     if (err) {
+        //         throw err;
+        //     }
+        //     res.send(JSON.parse(data));
+        // });
 
-        console.log(noteData);
+
+        // console.log(noteData);
         res.json(noteData);
+
+
     });
 
 
 
     app.post("/api/notes", function (req, res) {
-        tableData.push(req.body);
+        noteData.push(req.body);
         res.json(noteData);
     });
 
