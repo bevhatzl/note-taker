@@ -1,6 +1,7 @@
 const noteData = require("../db/db.json");
 const fs = require("fs");
-
+let notes = noteData;
+const path = require("path");
 
 module.exports = function (app) {
     // API GET Requests
@@ -19,8 +20,11 @@ module.exports = function (app) {
 
 
         // console.log(noteData);
-        res.json(noteData);
-
+        for (i = 0; i < notes.length; i++) {
+            notes[i].id = i + 1;
+        }
+        console.log(notes);
+        res.json(notes);
 
     });
 
@@ -28,9 +32,23 @@ module.exports = function (app) {
 
     app.post("/api/notes", function (req, res) {
 
-        noteData.push(req.body);
+        notes.push(req.body);
 
-        res.json(noteData);
+        for (i = 0; i < notes.length; i++) {
+            notes[i].id = i + 1;
+        }
+
+        console.log(typeof (notes));
+        let stringNotes = JSON.stringify(notes);
+        console.log(typeof (stringNotes));
+        // fs.writeFile(path.join(__dirname, "../db/db.json"), parsedNotes, function (err) {
+        //     if (err) return console.log(err);
+        // });
+        fs.writeFile(path.join(__dirname, "../db/db.json"), stringNotes, 'utf8', function (err) {
+            if (err) return console.log(err);
+        });
+
+        res.json(notes);
     });
 
     app.delete("/api/notes/:id", function (req, res) {
